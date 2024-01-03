@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: pols-place
-  namespace: birthdays
+  namespace: birthdaypies
   labels: 
     apps: pols-place
     release: pols-place
