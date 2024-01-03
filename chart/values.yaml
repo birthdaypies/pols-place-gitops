@@ -1,0 +1,58 @@
+application:
+  host: "the-farmer.io"
+
+ingress:
+  enabled: true
+  sslTermination: true
+  cors:
+    enabled: false
+    allowHeaders: #This can be provided by library user, and is an array of header names.
+
+deployment:
+  enabled: true
+
+  prometheus:
+    enabled: true
+    path: "/metrics"
+    port: "8080"
+
+  image:
+    tag: latest
+    name: pols-place
+    pullSecret: 
+      name: "google-artifact-registry-credentials-the-farmer"
+    pullPolicy: "Always"
+    registry:
+      host: "europe-west1-docker.pkg.dev"
+      repository:
+        name: "silvester-306016/the-farmer-docker/images"
+
+  probes:
+    liveness: 
+      enabled: true
+      path: "/_meta/probes/liveness"
+      port: 80
+      initialDelaySeconds: 60
+      periodSeconds: 30
+      timeoutSeconds: 10
+      successThreshold: 1
+      failureThreshold: 5
+    readiness: 
+      enabled: true
+      path: "/_meta/probes/readiness"
+      port: 80
+      initialDelaySeconds: 0
+      periodSeconds: 5
+      timeoutSeconds: 10
+      successThreshold: 1
+      failureThreshold: 10
+
+  resources:
+    requests:
+      memory: "128Mi"
+      cpu: "0.1m"
+      ephemeralStorage: "128Mi"
+    limits:
+      memory: "1024Mi"
+      cpu: 1
+      ephemeralStorage: "256Mi"
