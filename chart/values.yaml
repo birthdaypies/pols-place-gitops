@@ -1,5 +1,6 @@
 application:
   host: "the-farmer.io"
+  version: pols-place
 
 ingress:
   enabled: true
